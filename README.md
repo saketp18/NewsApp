@@ -7,6 +7,11 @@ Components used.
 
 Architecture Used : **MVVM**
 
+**TODO**<br>
+* **Integrate Dagger2**
+* **Separate branch to implement Koin**
+
+
 This repo provides clear picture between two branches where **master** pictures paint for handling network requests via coroutines where **rxjava-network** branch handles network requests via RxJava concepts.
 
 Here is screenshot of App
