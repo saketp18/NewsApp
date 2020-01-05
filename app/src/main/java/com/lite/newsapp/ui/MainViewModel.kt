@@ -32,7 +32,7 @@ class MainViewModel : ViewModel() {
                 }*/
                 mutableNewsResponse.postValue(response.body())
             } else {
-                Log.d("Saket", "Error ${response.code()} and ${response.errorBody()}")
+                Log.d("NewsApp", "Error ${response.code()} and ${response.errorBody()}")
             }
         }
     }
