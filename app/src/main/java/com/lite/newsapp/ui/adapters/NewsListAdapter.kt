@@ -11,8 +11,10 @@ import com.bumptech.glide.Glide
 import com.lite.newsapp.R
 import com.lite.newsapp.models.Articles
 
-class NewsListAdapter(val articles: List<Articles>, val context: Context) :
+class NewsListAdapter(private val context: Context) :
     RecyclerView.Adapter<NewsListAdapter.NewsItemResponseHolder>() {
+
+    private val articles = ArrayList<Articles>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsItemResponseHolder {
         val view =
@@ -29,6 +31,12 @@ class NewsListAdapter(val articles: List<Articles>, val context: Context) :
             .placeholder(context.getDrawable(R.drawable.white_background))
             .into(holder.imageView)
 
+    }
+
+    fun setArticlesResponse(articles: List<Articles>) {
+        this.articles.clear()
+        this.articles.addAll(articles)
+        notifyDataSetChanged()
     }
 
     class NewsItemResponseHolder(view: View) : RecyclerView.ViewHolder(view) {
