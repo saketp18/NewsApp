@@ -4,6 +4,6 @@ import com.lite.newsapp.util.RetrofitClientInstance
 
 class Repository {
 
-    suspend fun getNewsData(queryMap: Map<String, String>) =
+    fun getNewsData(queryMap: Map<String, String>) =
         RetrofitClientInstance.getClient().getNews(queryMap)
 }

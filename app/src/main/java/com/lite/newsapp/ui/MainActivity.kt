@@ -1,9 +1,9 @@
 package com.lite.newsapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +12,7 @@ import com.lite.newsapp.databinding.ActivityMainBinding
 import com.lite.newsapp.ui.adapters.NewsListAdapter
 import com.lite.newsapp.util.getQuery
 import com.lite.newsapp.util.isNetworkAvailable
+import io.reactivex.disposables.CompositeDisposable
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var newsAdapter: NewsListAdapter
     private lateinit var newsList: RecyclerView
     private lateinit var activityMainBinding: ActivityMainBinding
+    private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +42,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun getNewsResponse() {
         if (isNetworkAvailable(this)) {
-            viewModel.getNewsResponse(getQuery())
-            viewModel.mutableNewsResponse.observe(this, Observer { response ->
-                newsAdapter.setArticlesResponse(response.articles)
-            })
+            disposable.add(viewModel.getNewsResponse(getQuery())
+                .subscribe(
+                    {
+                        viewModel.progressSate.set(false)
+                        val response = it.body()
+                        if (it.isSuccessful && response != null) {
+                            newsAdapter.setArticlesResponse(response.articles)
+                        } else {
+                            Log.d(
+                                "NewsApp",
+                                "Error ${it.code()} and errorbody ${it.errorBody()}"
+                            )
+                        }
+                    },
+                    {
+                        viewModel.progressSate.set(false)
+
+                    }
+                )
+            )
         } else {
             viewModel.progressSate.set(false)
         }
