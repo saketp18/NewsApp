@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lite.newsapp.R
 import com.lite.newsapp.ui.adapters.NewsListAdapter
-import com.lite.newsapp.util.APIKEY
-import com.lite.newsapp.util.TOPIC
+import com.lite.newsapp.util.getQuery
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,10 +22,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         newsList = findViewById(R.id.news_list)
 
-        val map = HashMap<String, String>()
-        map["apiKey"] = APIKEY
-        map["q"] = TOPIC
-        viewModel.getNewsResponse(map)
+        viewModel.getNewsResponse(getQuery())
     }
 
     override fun onResume() {
