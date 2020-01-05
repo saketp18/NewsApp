@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.lite.newsapp.data.Repository
 import com.lite.newsapp.models.NewsResponse
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ class MainViewModel : ViewModel() {
     private val repository = Repository()
     //Here we can use Job or SupervisorJob
     private val viewModelJob = SupervisorJob()
-    private val viewModeScope = CoroutineScope(Main + viewModelJob)
+    private val viewModeScope = CoroutineScope(IO + viewModelJob)
     val mutableNewsResponse = MutableLiveData<NewsResponse>()
     val progressSate = ObservableField(true)
 
