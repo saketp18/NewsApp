@@ -1,5 +1,6 @@
 package com.lite.newsapp.ui
 
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,5 +20,20 @@ class MainViewModel : ViewModel() {
     fun getNewsResponse(map: Map<String, String>): Single<Response<NewsResponse>> {
         return repository.getNewsData(map).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSuccess {
+                progressSate.set(false)
+                val response = it.body()
+                if (it.isSuccessful && response != null) {
+                    mutableNewsResponse.value = response
+                } else {
+                    Log.d(
+                        "NewsApp",
+                        "Error ${it.code()} and errorbody ${it.errorBody()}"
+                    )
+                }
+            }
+            .doOnError {
+
+            }
     }
 }

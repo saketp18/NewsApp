@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,28 +43,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun getNewsResponse() {
         if (isNetworkAvailable(this)) {
-            disposable.add(viewModel.getNewsResponse(getQuery())
-                .subscribe(
-                    {
-                        viewModel.progressSate.set(false)
-                        val response = it.body()
-                        if (it.isSuccessful && response != null) {
-                            newsAdapter.setArticlesResponse(response.articles)
-                        } else {
-                            Log.d(
-                                "NewsApp",
-                                "Error ${it.code()} and errorbody ${it.errorBody()}"
-                            )
-                        }
-                    },
-                    {
-                        viewModel.progressSate.set(false)
-
-                    }
-                )
-            )
+            subscribeData()
+            disposable.add(viewModel.getNewsResponse(getQuery()).subscribe())
         } else {
             viewModel.progressSate.set(false)
         }
+    }
+
+    private fun subscribeData() {
+        viewModel.mutableNewsResponse.observe(this, Observer {response ->
+            newsAdapter.setArticlesResponse(response.articles)
+        })
     }
 }
