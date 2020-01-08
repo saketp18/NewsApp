@@ -37,6 +37,16 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Another way to do above CorotuineScope with viewModelScop specified in dependencies
+     * implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03'
+     *
+     *  viewModelScope.launch {
+     *   @see getNewsResponse()
+     * }
+     *
+     */
+
     override fun onCleared() {
         super.onCleared()
         viewModeScope.cancel()
