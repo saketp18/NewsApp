@@ -17,13 +17,27 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
 
+        <TextView
+            android:id="@+id/news_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.response}"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="News Demo App"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/news_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/news_header" />
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -33,6 +47,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

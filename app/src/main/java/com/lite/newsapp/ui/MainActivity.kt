@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         activityMainBinding.viewmodel = viewModel
+        activityMainBinding.lifecycleOwner = this
         newsList = findViewById(R.id.news_list)
         initRecyclerView()
         getNewsResponse()
@@ -42,7 +43,9 @@ class MainActivity : AppCompatActivity() {
         if (isNetworkAvailable(this)) {
             viewModel.getNewsResponse(getQuery())
             viewModel.mutableNewsResponse.observe(this, Observer { response ->
-                newsAdapter.setArticlesResponse(response.articles)
+                response.onSuccess {
+                    newsAdapter.setArticlesResponse(it!!.articles)
+                }
             })
         } else {
             viewModel.progressSate.set(false)

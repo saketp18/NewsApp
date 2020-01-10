@@ -19,3 +19,8 @@ Here is screenshot of App
 <img src="https://raw.githubusercontent.com/saketp18/NewsApp/master/screenshots/screenshot.png" width="300" height="600" />
 
 Feel free to report if any issues are there.
+
+
+### Update ###
+
+Branch **livedata-coroutines** added for usage of coroutines with livedata and showcase data bidning with livedata, error handling can be handled in this branch by adding CommonResponse class, which will be TO DO for this branch.
