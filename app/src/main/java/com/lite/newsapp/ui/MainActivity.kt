@@ -12,6 +12,7 @@ import com.lite.newsapp.databinding.ActivityMainBinding
 import com.lite.newsapp.ui.adapters.NewsListAdapter
 import com.lite.newsapp.util.getQuery
 import com.lite.newsapp.util.isNetworkAvailable
+import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         newsList.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            newsAdapter = NewsListAdapter(this@MainActivity)
+            newsAdapter = NewsListAdapter(WeakReference(this@MainActivity))
             adapter = newsAdapter
         }
     }

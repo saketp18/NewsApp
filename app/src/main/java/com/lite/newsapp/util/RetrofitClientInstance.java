@@ -31,7 +31,6 @@ public class RetrofitClientInstance {
     }
 
     public static NewsApiService getClient() {
-        NewsApiService client = getRetrofit().create(NewsApiService.class);
-        return client;
+        return getRetrofit().create(NewsApiService.class);
     }
 }

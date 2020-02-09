@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lite.newsapp.R
 import com.lite.newsapp.models.Articles
+import java.lang.ref.WeakReference
 
-class NewsListAdapter(private val context: Context) :
+class NewsListAdapter(private val context: WeakReference<Context>) :
     RecyclerView.Adapter<NewsListAdapter.NewsItemResponseHolder>() {
 
     private val articles = ArrayList<Articles>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsItemResponseHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.news_item_response, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.news_item_response, parent, false)
         return NewsItemResponseHolder(view)
     }
 
@@ -26,11 +26,12 @@ class NewsListAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: NewsItemResponseHolder, position: Int) {
         holder.textView.text = articles[position].title
-        Glide.with(context)
-            .load(articles[position].urlToImage)
-            .placeholder(context.getDrawable(R.drawable.white_background))
-            .into(holder.imageView)
-
+        context.get()?.let {
+            Glide.with(it)
+                .load(articles[position].urlToImage)
+                .placeholder(it.getDrawable(R.drawable.white_background))
+                .into(holder.imageView)
+        }
     }
 
     fun setArticlesResponse(articles: List<Articles>) {
